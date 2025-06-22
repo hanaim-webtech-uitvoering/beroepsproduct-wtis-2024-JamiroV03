@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f9f9f8;
         }
 
         header {
@@ -79,7 +79,8 @@
         <a href="#menu">Menu</a>
         <a href="#winkelmandje">Winkelmandje</a>
         <a href="#profiel">Profiel</a>
-        <a href="#registratie">Registreren/Inloggen</a>
+        <a href="registreren.php">Registreren</a>
+        <a href="login.php">Inloggen</a>
         <a href="#bestellingen">Bestellingoverzicht</a>
         <a href="#privacy">Privacyverklaring</a>
     </nav>
@@ -102,8 +103,8 @@
         <section id="registratie">
             <h2>Registreren/Inloggen</h2>
             <p>Maak een account aan of log in om verder te gaan.</p>
-            <a href="#" class="button">Registreren</a>
-            <a href="#" class="button">Inloggen</a>
+            <a href="registreren.php">Registreren</a>
+            <a href="login.php">Inloggen</a>
         </section>
 
         <section id="bestellingen">

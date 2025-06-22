@@ -1,8 +1,8 @@
 <?php
 
 // defined in 'variables.env'
-$db_host = 'database_server'; // de database server 
-$db_name = 'muziekschool';                    // naam van database
+$db_host = 'localhost,1434'; // de database server 
+$db_name = 'pizzeria';                    // naam van database
 
 // defined in sql-script 'movies.sql'
 $db_user    = 'sa';                 // db user
