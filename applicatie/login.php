@@ -1,30 +1,32 @@
 <?php
 session_start();
-require 'db_connectie.php';
+require_once 'db_connectie.php';
 
 $message = '';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $conn = maakVerbinding();
+
+    $gebruikersnaam = trim(strip_tags($_POST['username']));
+    $wachtwoord     = trim($_POST['password']);
 
     $stmt = $conn->prepare("SELECT * FROM [User] WHERE username = ?");
-    $stmt->execute([$username]);
-    $user = $stmt->fetch();
+    $stmt->execute([$gebruikersnaam]);
+    $gebruiker = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['role'] = $user['role'];
-        $_SESSION['name'] = $user['first_name'];
+    if ($gebruiker && password_verify($wachtwoord, $gebruiker['password'])) {
+        $_SESSION['username'] = $gebruiker['username'];
+        $_SESSION['role'] = $gebruiker['role'];
+        $_SESSION['name'] = $gebruiker['first_name'];
 
-        if ($user['role'] === 'klant') {
+        if ($gebruiker['role'] === 'klant') {
             header("Location: profiel.php");
-        } elseif ($user['role'] === 'personeel') {
+        } elseif ($gebruiker['role'] === 'personeel') {
             header("Location: overzicht.php");
         }
         exit;
     } else {
-        $message = "Ongeldige logingegevens";
+        $message = "Ongeldige gebruikersnaam of wachtwoord.";
     }
 }
 ?>
@@ -36,4 +38,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <button type="submit">Inloggen</button>
 </form>
 
-<p><?= $message ?></p>
+<p><?= htmlspecialchars($message) ?></p>

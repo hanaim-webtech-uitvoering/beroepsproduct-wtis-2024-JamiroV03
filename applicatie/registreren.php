@@ -1,23 +1,30 @@
 <?php
-require 'db_connectie.php';
+require_once 'db_connectie.php';
 $message = '';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $conn = maakVerbinding();
-    
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $address = $_POST['address'];
-    $role = 'klant'; // standaard rol
 
-    $stmt = $conn->prepare("INSERT INTO [User] (username, password, first_name, last_name, address, role) VALUES (?, ?, ?, ?, ?, ?)");
-    try {
-        $stmt->execute([$username, $password, $first_name, $last_name, $address, $role]);
-        $message = "Registratie succesvol! Je kunt nu inloggen.";
-    } catch (PDOException $e) {
-        $message = "Fout bij registreren: " . $e->getMessage();
+    $gebruikersnaam = trim(strip_tags($_POST['username']));
+    $wachtwoord     = trim($_POST['password']);
+    $voornaam       = trim(strip_tags($_POST['first_name']));
+    $achternaam     = trim(strip_tags($_POST['last_name']));
+    $adres          = trim(strip_tags($_POST['address']));
+    $rol            = 'klant';
+
+    if (empty($gebruikersnaam) || empty($wachtwoord) || empty($voornaam) || empty($achternaam) || empty($adres)) {
+        $message = "Vul alle velden correct in.";
+    } else {
+        $hashed_wachtwoord = password_hash($wachtwoord, PASSWORD_DEFAULT);
+
+        $stmt = $conn->prepare("INSERT INTO [User] (username, password, first_name, last_name, address, role) VALUES (?, ?, ?, ?, ?, ?)");
+
+        try {
+            $stmt->execute([$gebruikersnaam, $hashed_wachtwoord, $voornaam, $achternaam, $adres, $rol]);
+            $message = "Registratie succesvol! Je kunt nu inloggen.";
+        } catch (PDOException $e) {
+            $message = "Fout bij registreren: " . htmlspecialchars($e->getMessage());
+        }
     }
 }
 ?>
@@ -32,4 +39,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <button type="submit">Registreer</button>
 </form>
 
-<p><?= $message ?></p>
+<p><?= htmlspecialchars($message) ?></p>

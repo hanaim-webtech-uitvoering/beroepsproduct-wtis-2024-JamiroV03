@@ -82,7 +82,7 @@
         <a href="registreren.php">Registreren</a>
         <a href="login.php">Inloggen</a>
         <a href="#bestellingen">Bestellingoverzicht</a>
-        <a href="#privacy">Privacyverklaring</a>
+        <a href="privacy.php">Privacyverklaring</a>
     </nav>
     <main class="container">
         <section id="menu">
@@ -115,6 +115,7 @@
         <section id="privacy">
             <h2>Privacyverklaring</h2>
             <p>Lees hier hoe wij jouw gegevens beschermen.</p>
+            <a href="privacy.php">Privacyverklaring</a>
         </section>
     </main>
     <footer>
